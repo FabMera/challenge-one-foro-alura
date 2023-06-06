@@ -1,6 +1,6 @@
 package com.alura.foro.services;
 
-import com.alura.modelo.topicos.Topico;
+import com.alura.foro.modelo.topicos.Topico;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,6 @@
-package com.alura.modelo.usuario;
+package com.alura.foro.modelo.usuario;
 
-import com.alura.modelo.topicos.Topico;
+import com.alura.foro.modelo.topicos.Topico;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -18,8 +18,7 @@ public class Autor {
     private String contrasena;
 
     //Relacion con Topicos
-    @OneToMany(mappedBy = "autor",cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_autor")
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
     private List<Topico> topico;
 
     @Override

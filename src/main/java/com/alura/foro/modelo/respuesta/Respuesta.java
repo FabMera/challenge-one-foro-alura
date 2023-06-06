@@ -1,12 +1,13 @@
-package com.alura.modelo.respuesta;
+package com.alura.foro.modelo.respuesta;
 
-import com.alura.modelo.topicos.Topico;
-import com.alura.modelo.usuario.Autor;
+import com.alura.foro.modelo.topicos.Topico;
+import com.alura.foro.modelo.usuario.Autor;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "respuestas")
 public class Respuesta {
 
 	@Id
@@ -16,11 +17,25 @@ public class Respuesta {
 	 @ManyToOne
 	@JoinColumn(name = "topico_id")
 	private Topico topico;
-	private LocalDateTime fechaCreacion = LocalDateTime.now();
+	@Column(name = "fecha_creacion")
+	private LocalDateTime fechaCreacion;
 
 	@ManyToOne
 	private Autor autor;
 	private Boolean solucion = false;
+
+
+	public Respuesta() {
+	}
+
+	public Respuesta(Long id, String mensaje, Topico topico, LocalDateTime fechaCreacion, Autor autor, Boolean solucion) {
+		this.id = id;
+		this.mensaje = mensaje;
+		this.topico = topico;
+		this.fechaCreacion = LocalDateTime.now();
+		this.autor = autor;
+		this.solucion = solucion;
+	}
 
 	@Override
 	public int hashCode() {

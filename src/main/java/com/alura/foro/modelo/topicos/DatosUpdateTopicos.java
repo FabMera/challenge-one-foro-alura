@@ -1,4 +1,4 @@
-package com.alura.modelo.topicos;
+package com.alura.foro.modelo.topicos;
 
 import jakarta.validation.constraints.NotNull;
 

@@ -1,24 +1,30 @@
-package com.alura.modelo.curso;
+package com.alura.foro.modelo.curso;
 
-import com.alura.modelo.topicos.Topico;
+import com.alura.foro.modelo.Categorias;
+import com.alura.foro.modelo.topicos.Topico;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@Table(name = "cursos")
 public class Curso {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nombre;
-	private String categoria;
+
+	@Enumerated(EnumType.STRING)
+	private CursosNombre nombre;
+
+	@Enumerated(EnumType.STRING)
+	private Categorias categoria;
 
 	//Relacion con topicos
 	@ManyToMany(mappedBy = "curso")
 	private List<Topico> topicos;
 
-	public Curso(String nombre, String categoria) {
+	public Curso(CursosNombre nombre, Categorias categoria) {
 		this.nombre = nombre;
 		this.categoria = categoria;
 	}
@@ -59,19 +65,19 @@ public class Curso {
 		this.id = id;
 	}
 
-	public String getNombre() {
+	public CursosNombre getNombre() {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
+	public void setNombre(CursosNombre nombre) {
 		this.nombre = nombre;
 	}
 
-	public String getCategoria() {
+	public Categorias getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(String categoria) {
+	public void setCategoria(Categorias categoria) {
 		this.categoria = categoria;
 	}
 

@@ -1,7 +1,7 @@
 package com.alura.foro.services;
 
 import com.alura.foro.repositories.ForoRepository;
-import com.alura.modelo.topicos.Topico;
+import com.alura.foro.modelo.topicos.Topico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +28,6 @@ public class TopicServiceJPA implements TopicoService {
     public Optional<Topico> findById(Long id) {
         return topicoRepository.findById(id);
     }
-
 
     @Transactional
     @Override

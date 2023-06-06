@@ -1,9 +1,8 @@
-package com.alura.modelo.topicos;
+package com.alura.foro.modelo.topicos;
 
-import com.alura.modelo.curso.Curso;
-import com.alura.modelo.respuesta.Respuesta;
-import com.alura.modelo.StatusTopico;
-import com.alura.modelo.usuario.Autor;
+import com.alura.foro.modelo.curso.Curso;
+import com.alura.foro.modelo.respuesta.Respuesta;
+import com.alura.foro.modelo.usuario.Autor;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -18,13 +17,14 @@ public class Topico {
 	private Long id;
 	private String titulo;
 	private String mensaje;
+	@Column(name = "fecha_creacion")
 	private LocalDateTime fechaCreacion;
 	@Enumerated(EnumType.STRING)
 	private StatusTopico status = StatusTopico.NO_RESPONDIDO;
 
 	//Relacion con autor
 	@ManyToOne
-	@JoinColumn(name = "autor_id")
+	@JoinColumn(name = "id_autor")
 	private Autor autor;
 
 	//Relacion con cursos
@@ -54,7 +54,6 @@ public class Topico {
 		if(datosUpdateTopicos.mensaje() != null) {
 			this.mensaje = datosUpdateTopicos.mensaje();
 		}
-
 	}
 
 	@Override
