@@ -1,24 +1,60 @@
-package com.alura.modelo;
+package com.alura.modelo.topicos;
+
+import com.alura.modelo.curso.Curso;
+import com.alura.modelo.respuesta.Respuesta;
+import com.alura.modelo.StatusTopico;
+import com.alura.modelo.usuario.Autor;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "topicos")
 public class Topico {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String titulo;
 	private String mensaje;
-	private LocalDateTime fechaCreacion = LocalDateTime.now();
+	private LocalDateTime fechaCreacion;
+	@Enumerated(EnumType.STRING)
 	private StatusTopico status = StatusTopico.NO_RESPONDIDO;
-	private Usuario autor;
-	private Curso curso;
-	private List<Respuesta> respuestas = new ArrayList<>();
 
-	public Topico(String titulo, String mensaje, Curso curso) {
-		this.titulo = titulo;
-		this.mensaje = mensaje;
-		this.curso = curso;
+	//Relacion con autor
+	@ManyToOne
+	@JoinColumn(name = "autor_id")
+	private Autor autor;
+
+	//Relacion con cursos
+	@ManyToMany
+	@JoinTable(name = "topico_curso",
+			joinColumns = @JoinColumn(name = "id_topico"),
+			inverseJoinColumns = @JoinColumn(name = "id_curso"))
+	private List<Curso> curso;
+
+	//Relacion con respuestas
+	@OneToMany(mappedBy = "topico", cascade = CascadeType.ALL)
+	private List<Respuesta> respuestas;
+
+	public Topico(DatosRegistroTopicos datosRegistroTopicos) {
+		this.titulo = datosRegistroTopicos.titulo();
+		this.mensaje = datosRegistroTopicos.mensaje();
+		this.fechaCreacion = LocalDateTime.now();
+	}
+
+	public Topico() {
+
+	}
+	public void actualizarTopico(DatosUpdateTopicos datosUpdateTopicos) {
+		if(datosUpdateTopicos.titulo() != null) {
+			this.titulo = datosUpdateTopicos.titulo();
+		}
+		if(datosUpdateTopicos.mensaje() != null) {
+			this.mensaje = datosUpdateTopicos.mensaje();
+		}
+
 	}
 
 	@Override
@@ -86,19 +122,19 @@ public class Topico {
 		this.status = status;
 	}
 
-	public Usuario getAutor() {
+	public Autor getAutor() {
 		return autor;
 	}
 
-	public void setAutor(Usuario autor) {
+	public void setAutor(Autor autor) {
 		this.autor = autor;
 	}
 
-	public Curso getCurso() {
+	public List<Curso> getCurso() {
 		return curso;
 	}
 
-	public void setCurso(Curso curso) {
+	public void setCurso(List<Curso> curso) {
 		this.curso = curso;
 	}
 

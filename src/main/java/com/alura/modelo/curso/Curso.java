@@ -1,14 +1,29 @@
-package com.alura.modelo;
+package com.alura.modelo.curso;
 
+import com.alura.modelo.topicos.Topico;
+import jakarta.persistence.*;
+
+import java.util.List;
+
+@Entity
 public class Curso {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nombre;
 	private String categoria;
 
+	//Relacion con topicos
+	@ManyToMany(mappedBy = "curso")
+	private List<Topico> topicos;
+
 	public Curso(String nombre, String categoria) {
 		this.nombre = nombre;
 		this.categoria = categoria;
+	}
+	public Curso() {
+
 	}
 	
 	@Override

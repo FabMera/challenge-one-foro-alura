@@ -1,14 +1,25 @@
-package com.alura.modelo;
+package com.alura.modelo.respuesta;
+
+import com.alura.modelo.topicos.Topico;
+import com.alura.modelo.usuario.Autor;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+@Entity
 public class Respuesta {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String mensaje;
+	 @ManyToOne
+	@JoinColumn(name = "topico_id")
 	private Topico topico;
 	private LocalDateTime fechaCreacion = LocalDateTime.now();
-	private Usuario autor;
+
+	@ManyToOne
+	private Autor autor;
 	private Boolean solucion = false;
 
 	@Override
@@ -68,11 +79,11 @@ public class Respuesta {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Usuario getAutor() {
+	public Autor getAutor() {
 		return autor;
 	}
 
-	public void setAutor(Usuario autor) {
+	public void setAutor(Autor autor) {
 		this.autor = autor;
 	}
 
