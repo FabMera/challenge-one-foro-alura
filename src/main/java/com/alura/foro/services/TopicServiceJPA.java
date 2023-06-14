@@ -1,5 +1,6 @@
 package com.alura.foro.services;
 
+import com.alura.foro.modelo.topicos.DTO.UpdateTopicosDTO;
 import com.alura.foro.repositories.ForoRepository;
 import com.alura.foro.modelo.topicos.Topico;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,14 @@ public class TopicServiceJPA implements TopicoService {
         return topicoRepository.findById(id);
     }
 
+    //Metodo para crear un topico
     @Transactional
     @Override
     public Topico save(Topico topico) {
         return topicoRepository.save(topico);
     }
+
+    //Metodo para eliminar un topico por id
 
     @Override
     @Transactional
@@ -41,16 +45,15 @@ public class TopicServiceJPA implements TopicoService {
         topicoRepository.deleteById(id);
     }
 
+    //Metodo para actualizar un topico
     @Transactional
     @Override
-    public Optional<Topico> update(Topico topico, Long id) {
-        Optional<Topico> op = findById(id);
-        Topico topicoOptional = null;
-        if (op.isPresent()) {
-            Topico topicoDB = op.orElseThrow();
-            topicoDB.setTitulo(topico.getTitulo());
-            topicoDB.setMensaje(topico.getMensaje());
-        }
-        return op.ofNullable(topicoOptional);
+    public UpdateTopicosDTO updateTopico(UpdateTopicosDTO updateTopicosDTO, Long id) {
+        Topico topico = topicoRepository.findById(id).orElseThrow();
+        topico.setTitulo(updateTopicosDTO.getTitulo());
+        topico.setMensaje(updateTopicosDTO.getMensaje());
+        topicoRepository.save(topico);
+        return updateTopicosDTO;
     }
+
 }

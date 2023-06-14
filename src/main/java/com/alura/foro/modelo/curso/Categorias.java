@@ -1,4 +1,4 @@
-package com.alura.foro.modelo;
+package com.alura.foro.modelo.curso;
 
 public enum Categorias {
 

@@ -3,6 +3,7 @@ package com.alura.foro.modelo.usuario;
 import com.alura.foro.modelo.topicos.Topico;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "autores")
@@ -18,7 +19,7 @@ public class Autor {
     private String contrasena;
 
     //Relacion con Topicos
-    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.PERSIST)
     private List<Topico> topico;
 
     @Override
@@ -27,6 +28,16 @@ public class Autor {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
+    }
+
+    public Autor(Long id, String nombre, String email, String contrasena) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.contrasena = contrasena;
+    }
+    public Autor() {
+
     }
 
     @Override

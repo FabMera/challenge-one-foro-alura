@@ -2,7 +2,9 @@ package com.alura.foro.modelo.topicos;
 
 import com.alura.foro.modelo.curso.Curso;
 import com.alura.foro.modelo.respuesta.Respuesta;
+import com.alura.foro.modelo.topicos.DTO.UpdateTopicosDTO;
 import com.alura.foro.modelo.usuario.Autor;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -17,8 +19,9 @@ public class Topico {
 	private Long id;
 	private String titulo;
 	private String mensaje;
-	@Column(name = "fecha_creacion")
-	private LocalDateTime fechaCreacion;
+
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime fechaCreacion = LocalDateTime.now();
 	@Enumerated(EnumType.STRING)
 	private StatusTopico status = StatusTopico.NO_RESPONDIDO;
 
@@ -28,33 +31,23 @@ public class Topico {
 	private Autor autor;
 
 	//Relacion con cursos
-	@ManyToMany
-	@JoinTable(name = "topico_curso",
-			joinColumns = @JoinColumn(name = "id_topico"),
-			inverseJoinColumns = @JoinColumn(name = "id_curso"))
-	private List<Curso> curso;
+	@ManyToOne
+	@JoinColumn(name = "id_curso")
+	private Curso curso;
 
 	//Relacion con respuestas
 	@OneToMany(mappedBy = "topico", cascade = CascadeType.ALL)
 	private List<Respuesta> respuestas;
 
-	public Topico(DatosRegistroTopicos datosRegistroTopicos) {
-		this.titulo = datosRegistroTopicos.titulo();
-		this.mensaje = datosRegistroTopicos.mensaje();
-		this.fechaCreacion = LocalDateTime.now();
+	public Topico(String titulo, String mensaje, Autor autor, Curso curso) {
+		this.titulo = titulo;
+		this.mensaje = mensaje;
+		this.autor = autor;
+		this.curso = curso;
 	}
-
 	public Topico() {
+	}
 
-	}
-	public void actualizarTopico(DatosUpdateTopicos datosUpdateTopicos) {
-		if(datosUpdateTopicos.titulo() != null) {
-			this.titulo = datosUpdateTopicos.titulo();
-		}
-		if(datosUpdateTopicos.mensaje() != null) {
-			this.mensaje = datosUpdateTopicos.mensaje();
-		}
-	}
 
 	@Override
 	public int hashCode() {
@@ -105,14 +98,6 @@ public class Topico {
 		this.mensaje = mensaje;
 	}
 
-	public LocalDateTime getfechaCreacion() {
-		return fechaCreacion;
-	}
-
-	public void setfechaCreacion(LocalDateTime fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
-	}
-
 	public StatusTopico getStatus() {
 		return status;
 	}
@@ -129,14 +114,15 @@ public class Topico {
 		this.autor = autor;
 	}
 
-	public List<Curso> getCurso() {
+	public Curso getCurso() {
 		return curso;
 	}
 
-	public void setCurso(List<Curso> curso) {
+	public void setCurso(Curso curso) {
 		this.curso = curso;
 	}
 
+/*
 	public List<Respuesta> getRespuestas() {
 		return respuestas;
 	}
@@ -144,5 +130,14 @@ public class Topico {
 	public void setRespuestas(List<Respuesta> respuestas) {
 		this.respuestas = respuestas;
 	}
+*/
 
+	public LocalDateTime getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(LocalDateTime fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
 }
+

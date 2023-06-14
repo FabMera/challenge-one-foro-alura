@@ -1,10 +1,9 @@
 package com.alura.foro.modelo.curso;
 
-import com.alura.foro.modelo.Categorias;
 import com.alura.foro.modelo.topicos.Topico;
 import jakarta.persistence.*;
-
 import java.util.List;
+
 
 @Entity
 @Table(name = "cursos")
@@ -21,8 +20,8 @@ public class Curso {
 	private Categorias categoria;
 
 	//Relacion con topicos
-	@ManyToMany(mappedBy = "curso")
-	private List<Topico> topicos;
+	@OneToMany(mappedBy = "curso", cascade = CascadeType.PERSIST)
+	private List <Topico> topicos;
 
 	public Curso(CursosNombre nombre, Categorias categoria) {
 		this.nombre = nombre;
@@ -31,7 +30,14 @@ public class Curso {
 	public Curso() {
 
 	}
-	
+
+	public Curso(Curso curso) {
+		this.id = curso.id;
+		this.nombre = curso.nombre;
+		this.categoria = curso.categoria;
+
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
